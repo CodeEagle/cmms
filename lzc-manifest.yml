@@ -12,6 +12,10 @@ application:
   public_path:
     - /
   upstreams:
+    - location: /api/
+      backend: http://api:8080/
+    - location: /minio/
+      backend: http://minio:9000/
     - location: /
       backend: http://frontend:3000/
   environment:
