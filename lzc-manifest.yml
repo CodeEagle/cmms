@@ -1,6 +1,6 @@
 lzc-sdk-version: '0.1'
 package: fun.selfstudio.app.migration.cmms
-version: 1.5.2
+version: 1.5.3
 min_os_version: 1.3.8
 name: Atlas CMMS
 description: (LazyCat Auto-build) Self-hosted maintenance management system for web and mobile teams
