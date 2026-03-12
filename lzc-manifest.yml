@@ -1,0 +1,90 @@
+lzc-sdk-version: '0.1'
+package: fun.selfstudio.app.migration.cmms
+version: 1.5.0
+min_os_version: 1.3.8
+name: Atlas CMMS
+description: (LazyCat Auto-build) Self-hosted maintenance management system for web and mobile teams
+license: AGPL-3.0
+homepage: https://atlas-cmms.com
+author: Grashjs
+application:
+  subdomain: cmms
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://frontend:3000/
+  environment:
+    - POSTGRES_USER=rootUser
+    - POSTGRES_PWD=mypassword
+    - MINIO_USER=minio
+    - MINIO_PASSWORD=minio123
+    - JWT_SECRET_KEY=change-me-with-openssl-rand-base64-32
+    - PUBLIC_FRONT_URL=https://${LAZYCAT_BOX_DOMAIN}
+    - PUBLIC_API_URL=https://${LAZYCAT_BOX_DOMAIN}/api
+    - PUBLIC_MINIO_ENDPOINT=https://${LAZYCAT_BOX_DOMAIN}/minio
+    - STORAGE_TYPE=minio
+services:
+  frontend:
+    image: registry.lazycat.cloud/codeeagle/cmms-frontend:1.5.0
+    depends_on:
+      - api
+    environment:
+      - API_URL=${PUBLIC_API_URL:-http://localhost:8080}
+      - INVITATION_VIA_EMAIL=${INVITATION_VIA_EMAIL:-false}
+      - CLOUD_VERSION=${CLOUD_VERSION:-false}
+      - NODE_ENV=production
+      - ENABLE_SSO=${ENABLE_SSO:-false}
+      - OAUTH2_PROVIDER=${OAUTH2_PROVIDER:-}
+      - LOGO_PATHS=${LOGO_PATHS:-}
+      - CUSTOM_COLORS=${CUSTOM_COLORS:-}
+      - BRAND_CONFIG=${BRAND_CONFIG:-}
+      - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-sandbox}
+  api:
+    image: registry.lazycat.cloud/codeeagle/cmms-api:1.5.0
+    depends_on:
+      - postgres
+      - minio
+    environment:
+      - DB_URL=postgres/atlas
+      - DB_USER=${POSTGRES_USER}
+      - DB_PWD=${POSTGRES_PWD}
+      - PUBLIC_API_URL=${PUBLIC_API_URL:-http://localhost:8080}
+      - PUBLIC_FRONT_URL=${PUBLIC_FRONT_URL:-http://localhost:3000}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - MINIO_ENDPOINT=http://minio:9000
+      - MINIO_BUCKET=atlas-bucket
+      - MINIO_ACCESS_KEY=${MINIO_USER}
+      - MINIO_SECRET_KEY=${MINIO_PASSWORD}
+      - STORAGE_TYPE=${STORAGE_TYPE:-minio}
+      - PUBLIC_MINIO_ENDPOINT=${PUBLIC_MINIO_ENDPOINT:-http://localhost:9000}
+      - INVITATION_VIA_EMAIL=${INVITATION_VIA_EMAIL:-false}
+      - ENABLE_EMAIL_NOTIFICATIONS=${ENABLE_EMAIL_NOTIFICATIONS:-false}
+      - ENABLE_SSO=${ENABLE_SSO:-false}
+      - ENABLE_CORS=${ENABLE_CORS:-true}
+    binds:
+      - /lzcapp/var/data/cmms/logo:/app/static/images
+      - /lzcapp/var/data/cmms/config:/app/static/config
+  postgres:
+    image: registry.lazycat.cloud/codeeagle/cmms-postgres:16-alpine
+    environment:
+      - POSTGRES_DB=atlas
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PWD}
+    binds:
+      - /lzcapp/var/db/cmms/postgres:/var/lib/postgresql/data
+  minio:
+    image: registry.lazycat.cloud/codeeagle/cmms-minio:RELEASE.2025-04-22T22-12-26Z
+    environment:
+      - MINIO_ROOT_USER=${MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
+    binds:
+      - /lzcapp/var/data/cmms/minio:/data
+    command: server --address ":9000" --console-address ":9001" /data
+locales:
+  en:
+    name: Atlas CMMS
+    description: (LazyCat Auto-build) Self-hosted maintenance management system for web and mobile teams
+  zh:
+    name: Atlas CMMS
+    description: （懒猫微服自动构建）面向 Web 与移动端团队的自托管设备维护管理系统
