@@ -20,7 +20,7 @@ application:
     - POSTGRES_PASSWORD=mypassword
     - MINIO_USER=minio
     - MINIO_PASSWORD=minio123
-    - JWT_SECRET_KEY=change-me-with-openssl-rand-base64-32
+    - JWT_SECRET_KEY=J4mH1Yc9J6dW3vF8xQ2nP7sK5mR0tL4aB8cD6eF2gH0=
     - PUBLIC_FRONT_URL=https://${LAZYCAT_BOX_DOMAIN}
     - PUBLIC_API_URL=https://${LAZYCAT_BOX_DOMAIN}/api
     - PUBLIC_MINIO_ENDPOINT=https://${LAZYCAT_BOX_DOMAIN}/minio
@@ -60,7 +60,7 @@ services:
       - DB_PWD=${POSTGRES_PWD:-mypassword}
       - PUBLIC_API_URL=${PUBLIC_API_URL:-http://localhost:8080}
       - PUBLIC_FRONT_URL=${PUBLIC_FRONT_URL:-http://localhost:3000}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-J4mH1Yc9J6dW3vF8xQ2nP7sK5mR0tL4aB8cD6eF2gH0=}
       - MINIO_ENDPOINT=http://minio:9000
       - MINIO_BUCKET=atlas-bucket
       - MINIO_ACCESS_KEY=${MINIO_USER}
