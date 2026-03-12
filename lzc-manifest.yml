@@ -28,6 +28,7 @@ application:
 services:
   frontend:
     image: registry.lazycat.cloud/invokerlaw/codeeagle/cmms:4e139ac9f7f18036
+    restart: unless-stopped
     depends_on:
       - api
     environment:
@@ -39,13 +40,17 @@ services:
       - CLOUD_VERSION=${CLOUD_VERSION:-false}
       - NODE_ENV=production
       - ENABLE_SSO=${ENABLE_SSO:-false}
-      - OAUTH2_PROVIDER=${OAUTH2_PROVIDER:-}
+      - OAUTH2_PROVIDER=${OAUTH2_PROVIDER:-disabled}
       - LOGO_PATHS=${LOGO_PATHS:-}
       - CUSTOM_COLORS=${CUSTOM_COLORS:-}
       - BRAND_CONFIG=${BRAND_CONFIG:-}
+      - DEMO_LINK=${DEMO_LINK:-disabled}
+      - PADDLE_SECRET_TOKEN=${PADDLE_SECRET_TOKEN:-disabled}
       - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-sandbox}
+      - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY:-disabled}
   api:
     image: registry.lazycat.cloud/invokerlaw/intelloop/atlas-cmms-backend:b4184dd0771686ee
+    restart: unless-stopped
     depends_on:
       - postgres
       - minio
