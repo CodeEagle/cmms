@@ -87,6 +87,12 @@ jobs:
           sync_image "postgres:16-alpine" "ghcr.io/${OWNER_LOWER}/cmms-postgres:16-alpine"
           sync_image "minio/minio:RELEASE.2025-04-22T22-12-26Z" "ghcr.io/${OWNER_LOWER}/cmms-minio:RELEASE.2025-04-22T22-12-26Z"
 
+          # Keep a primary image alias for lzcat-trigger, which expects ghcr.io/<owner>/<repo>:<tag>
+          docker tag "ghcr.io/${OWNER_LOWER}/cmms-frontend:${BUILD_VERSION}" "ghcr.io/${OWNER_LOWER}/cmms:${BUILD_VERSION}"
+          docker tag "ghcr.io/${OWNER_LOWER}/cmms-frontend:${BUILD_VERSION}" "ghcr.io/${OWNER_LOWER}/cmms:v${BUILD_VERSION}"
+          docker push "ghcr.io/${OWNER_LOWER}/cmms:${BUILD_VERSION}"
+          docker push "ghcr.io/${OWNER_LOWER}/cmms:v${BUILD_VERSION}"
+
       - name: Export build metadata
         if: steps.check.outputs.update_needed == 'true'
         run: |
@@ -96,6 +102,7 @@ jobs:
             "source_version": "${{ steps.version.outputs.source_version }}",
             "build_version": "${{ steps.version.outputs.build_version }}",
             "images": {
+              "primary": "ghcr.io/${{ github.repository_owner }}/cmms:${{ steps.version.outputs.build_version }}",
               "frontend": "ghcr.io/${{ github.repository_owner }}/cmms-frontend:${{ steps.version.outputs.build_version }}",
               "api": "ghcr.io/${{ github.repository_owner }}/cmms-backend:${{ steps.version.outputs.build_version }}",
               "postgres": "ghcr.io/${{ github.repository_owner }}/cmms-postgres:16-alpine",
