@@ -41,9 +41,9 @@ services:
       - NODE_ENV=production
       - ENABLE_SSO=${ENABLE_SSO:-false}
       - OAUTH2_PROVIDER=${OAUTH2_PROVIDER:-disabled}
-      - LOGO_PATHS=${LOGO_PATHS:-}
-      - CUSTOM_COLORS=${CUSTOM_COLORS:-}
-      - BRAND_CONFIG=${BRAND_CONFIG:-}
+      - LOGO_PATHS=${LOGO_PATHS:-{}}
+      - CUSTOM_COLORS=${CUSTOM_COLORS:-{}}
+      - BRAND_CONFIG=${BRAND_CONFIG:-{}}
       - DEMO_LINK=${DEMO_LINK:-disabled}
       - PADDLE_SECRET_TOKEN=${PADDLE_SECRET_TOKEN:-disabled}
       - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-sandbox}
