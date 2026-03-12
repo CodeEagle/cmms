@@ -41,7 +41,7 @@ services:
       - BRAND_CONFIG=${BRAND_CONFIG:-}
       - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-sandbox}
   api:
-    image: registry.lazycat.cloud/codeeagle/cmms-api:1.5.0
+    image: registry.lazycat.cloud/codeeagle/cmms-backend:1.5.0
     depends_on:
       - postgres
       - minio

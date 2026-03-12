@@ -83,7 +83,7 @@ jobs:
           }
 
           sync_image "intelloop/atlas-cmms-frontend:latest" "ghcr.io/${OWNER_LOWER}/cmms-frontend:${BUILD_VERSION}"
-          sync_image "intelloop/atlas-cmms-api:latest" "ghcr.io/${OWNER_LOWER}/cmms-api:${BUILD_VERSION}"
+          sync_image "intelloop/atlas-cmms-backend:latest" "ghcr.io/${OWNER_LOWER}/cmms-backend:${BUILD_VERSION}"
           sync_image "postgres:16-alpine" "ghcr.io/${OWNER_LOWER}/cmms-postgres:16-alpine"
           sync_image "minio/minio:RELEASE.2025-04-22T22-12-26Z" "ghcr.io/${OWNER_LOWER}/cmms-minio:RELEASE.2025-04-22T22-12-26Z"
 
@@ -97,7 +97,7 @@ jobs:
             "build_version": "${{ steps.version.outputs.build_version }}",
             "images": {
               "frontend": "ghcr.io/${{ github.repository_owner }}/cmms-frontend:${{ steps.version.outputs.build_version }}",
-              "api": "ghcr.io/${{ github.repository_owner }}/cmms-api:${{ steps.version.outputs.build_version }}",
+              "api": "ghcr.io/${{ github.repository_owner }}/cmms-backend:${{ steps.version.outputs.build_version }}",
               "postgres": "ghcr.io/${{ github.repository_owner }}/cmms-postgres:16-alpine",
               "minio": "ghcr.io/${{ github.repository_owner }}/cmms-minio:RELEASE.2025-04-22T22-12-26Z"
             }
