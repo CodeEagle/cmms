@@ -26,7 +26,7 @@ application:
     - STORAGE_TYPE=minio
 services:
   frontend:
-    image: registry.lazycat.cloud/codeeagle/cmms-frontend:1.5.0
+    image: registry.lazycat.cloud/invokerlaw/codeeagle/cmms:4e139ac9f7f18036
     depends_on:
       - api
     environment:
