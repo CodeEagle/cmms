@@ -41,7 +41,7 @@ services:
       - BRAND_CONFIG=${BRAND_CONFIG:-}
       - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-sandbox}
   api:
-    image: registry.lazycat.cloud/codeeagle/cmms-backend:1.5.0
+    image: registry.lazycat.cloud/invokerlaw/intelloop/atlas-cmms-backend:b4184dd0771686ee
     depends_on:
       - postgres
       - minio
@@ -66,7 +66,7 @@ services:
       - /lzcapp/var/data/cmms/logo:/app/static/images
       - /lzcapp/var/data/cmms/config:/app/static/config
   postgres:
-    image: registry.lazycat.cloud/codeeagle/cmms-postgres:16-alpine
+    image: registry.lazycat.cloud/invokerlaw/library/postgres:c7066f661fdb4a89
     environment:
       - POSTGRES_DB=atlas
       - POSTGRES_USER=${POSTGRES_USER}
@@ -74,7 +74,7 @@ services:
     binds:
       - /lzcapp/var/db/cmms/postgres:/var/lib/postgresql/data
   minio:
-    image: registry.lazycat.cloud/codeeagle/cmms-minio:RELEASE.2025-04-22T22-12-26Z
+    image: registry.lazycat.cloud/invokerlaw/minio/minio:04662dc938f19824
     environment:
       - MINIO_ROOT_USER=${MINIO_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
